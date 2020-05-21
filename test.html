@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="file">
+    <button onclick="read()">读取</button>
+</body>
+<script>
+    // 不要更改循环的索引值，不然导致死循环
+    // for (let i = 0; i < 2; i++) {
+    //     console.log(i);
+    // }
+    // for (let a = 0; a < 2; a++) {
+    //     if (a >= 1) {
+    //         a = 0
+    //     }
+    //     console.log(a);
+    // }
+
+
+    //一些string的方法
+    // document.getElementsByTagName("button")[0].onclick = function () {
+    //     // let x = "www.baidu.com/index/yc/123"
+    //     // let x ="yangchen"
+    //     //     let a = x.indexOf(".com/")
+    //     // console.log(a)
+    //     // let b = x.lastIndexOf("/")
+    //     // console.log(b)
+    //     // let c = x.substring(a, b)
+    //     // console.log(c)
+    //     // let d = x.substring(a)
+    //     // console.log(d)
+    //     // let e = x.substring(0, x.length-1)
+    //     // console.log(e)
+    //     // console.log(x.length)
+    //     let a = 2;
+    //     let b = 1
+    //     let c = 7
+    //     console.log(a % 2)
+    //     console.log(b % 2)
+    //     console.log(c % 2)
+    // }
+    // document.onkeypress=function(){
+    //     document.getElementsByTagName("button")[0].click()
+    // }
+
+
+
+
+    // let value = {
+    //     x: true,
+    //     y: false
+    // }
+    // let a = {}
+    // a["tset"] = { v: value, v2: value }
+    // console.log(a["tset"].v)
+
+
+    // let b = []
+    // let a = [3, 5, 2, 8]
+
+    // // console.log(min)
+    // // console.log(a.indexOf(min + 1) != -1 || a.indexOf(min + 2) != -1 && a.indexOf(min + 3) != -1)
+    // let i = 0
+    //  while (b.length < 3) {
+    // // for (let i = 0; i < 4; i++) {
+    //     let min = Math.min.apply(null, b)
+
+    //     console.log(a[i])
+    //     if (b.indexOf(a[i]) == -1) {
+    //         b.push(a[i])
+    //     }
+    //     if (b.indexOf(min + 1) != -1 || b.indexOf(min + 2) != -1 && b.indexOf(min + 3) != -1) {
+    //         b.splice(b.indexOf(min + 3), 1)
+    //     }
+    //     // i++
+    //     console.log(b)
+    // }
+    let a = "s.1.png"
+    console.log(a.indexOf(".png"))
+    console.log(a.slice(0, a.indexOf(".png")))
+</script>
+
+</html>
