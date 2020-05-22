@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="text" id="text1">
+
+    <div id="sub1"></div>
+    <button id="push">发布</button>
+    <button onclick="check()">订阅</button>
+</body>
+<script>
+    //被观察者
+    var Publish = function (_name) {
+        this.name = _name
+        this.subscribers = []//数组中存放所有的订阅者，数组的元素都是函数类型
+    }
+
+    //Publish的实例化对象去发布信息的方法
+    Publish.prototype.deliver = function (_info) {
+        var Publish = this//报社的实例
+        //通知所有的订阅者
+        this.subscribers.forEach(item => {
+            item(_info, Publish)//每个订阅者都收到了信息_info,并且还知道是哪家报社发布的
+        })
+        return this
+    }
+
+    //观察者
+    //订阅者的方法，每一个订阅者都是一个函数，在函数原型上拓展出一个方法
+    Function.prototype.subscribe = function (_Publish) {//出版社形参
+        var sub = this//观察者
+        //使用some方法，循环遍历订阅者数组中的每一个元素，如果有相同的名字return false
+        var alreadSub = _Publish.subscribers.some(() => {
+            return item == sub
+        })
+        //如果观察者中没有当前实例，则加入观察者数组
+        if (!alreadSub) {
+            _Publish.subscribers.push(sub)
+        }
+        return this
+    }
+
+    //实例化发布者对象
+    var pub1 = new Publish("广播一")
+
+    //观察者
+    var sub1 = function (_info, _pub) {
+        document.getElementById("sub1").innerHTML += _pub.name + _info + "\n"
+    }
+
+    //订阅的方法
+    function check() {
+        sub1.subscribe(pub1)
+    }
+
+    //发布信息
+    document.getElementById("push").onclick = function () {
+        pub1.deliver(document.getElementById("text1").value, pub1)
+    }
+
+    //理解：
+    //通过原型链绑定订阅者和被订阅者的信息，当触发发布信息的方法时，遍历已绑定的订阅者数组，执行订阅者的方法，达到订阅发布的功能
+</script>
+
+</html>
