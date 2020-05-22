@@ -11,6 +11,7 @@
     <input type="text" id="text1">
 
     <div id="sub1"></div>
+    <div id="sub2"></div>
     <button id="push">发布</button>
     <button onclick="check()">订阅</button>
 </body>
@@ -33,10 +34,12 @@
 
     //观察者
     //订阅者的方法，每一个订阅者都是一个函数，在函数原型上拓展出一个方法
-    Function.prototype.subscribe = function (_Publish) {//出版社形参
+    Function.prototype.subscribe = function (_Publish, _name) {//出版社形参
         var sub = this//观察者
+        console.log(_name)
+        sub.name = _name
         //使用some方法，循环遍历订阅者数组中的每一个元素，如果有相同的名字return false
-        var alreadSub = _Publish.subscribers.some(() => {
+        var alreadSub = _Publish.subscribers.some((item) => {
             return item == sub
         })
         //如果观察者中没有当前实例，则加入观察者数组
@@ -49,14 +52,22 @@
     //实例化发布者对象
     var pub1 = new Publish("广播一")
 
-    //观察者
+    //观察者1
     var sub1 = function (_info, _pub) {
-        document.getElementById("sub1").innerHTML += _pub.name + _info + "\n"
+        document.getElementById("sub1").innerHTML += "我是观察者一" + "；发布者是：" + _pub.name + "；发布的信息：" + _info + "\n"
+    }
+    //观察者2
+    var sub2 = function (_info, _pub) {
+        document.getElementById("sub2").innerHTML += "我是观察者二" + "；发布者是：" + _pub.name + "；发布的信息：" + _info + "\n"
     }
 
     //订阅的方法
     function check() {
-        sub1.subscribe(pub1)
+        sub1.subscribe(pub1, "观察者一")//观察者一订阅被观察者一
+        sub2.subscribe(pub1, "观察者二")//观察者二订阅被观察者一
+        // alert("订阅成功;订阅者为:" + pub1.subscribers)
+        console.log(pub1)
+        console.log(pub1.subscribers)
     }
 
     //发布信息
