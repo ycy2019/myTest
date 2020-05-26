@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    #frame {
+        width: 100px;
+        height: 100px;
+        background: red;
+    }
+
+    #frame2 {
+        margin-left: 120px;
+        width: 100px;
+        height: 100px;
+        background: blue;
+    }
+</style>
+
+<body>
+    <div id="frame"></div>
+    <div id="frame2"></div>
+</body>
+<script>
+    let posY = 0
+    let posY2 = 0
+    //requestAnimationFrame：优势：由系统决定回调函数的执行时机。60Hz的刷新频率，那么每次刷新的间隔中会执行一次回调函数，不会引起丢帧，不会卡顿
+    function render() {
+        let doc2 = document.getElementById("frame2")
+        posY++
+        doc2.style.marginTop = posY + "px"
+        window.requestAnimationFrame(render)
+    }
+    window.requestAnimationFrame(render)
+    //setTimeout：通过设定间隔时间来不断改变图像位置，达到动画效果。但是容易出现卡顿、抖动的现象；原因是：
+    //1、settimeout任务被放入异步队列，只有当主线程任务执行完后才会执行队列中的任务因此实际执行时间总是比设定时间要晚；
+    //2、settimeout的固定时间间隔不一定与屏幕刷新时间相同，会引起丢帧。
+    setInterval(() => {
+        posY2++
+        let doc = document.getElementById("frame")
+        doc.style.marginTop = posY2 + "px"
+    }, 0.2)
+
+</script>
+
+</html>
