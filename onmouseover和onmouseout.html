@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    #box {
+        margin-top: 100px;
+        width: 100px;
+        height: 100px;
+        background: red;
+    }
+
+    #box2 {
+        width: 100px;
+        height: 100px;
+        background: blue;
+        position: absolute;
+        top: 10px;
+    }
+</style>
+
+<body>
+    <div id="box">
+        <div id="box2">我是儿子</div>
+    </div>
+</body>
+<script>
+    //1、onmouseover、onmouseout：鼠标经过时自身触发事件，经过其子元素时也触发该事件；（父亲有的东西，儿子也有） ，支持冒泡
+    let oBox = document.getElementById("box")
+    oBox.onmouseover = function (_event) {
+        // console.log(_event.fromElement)
+        let oFrom = _event.fromElement
+        // console.log(oBox.contains(oFrom))
+        if (!oBox.contains(oFrom)) {
+            console.log("移入")
+        }
+        _event.stopPropagation()
+    }
+    oBox.onmouseout = function (_event) {
+        // console.log(_event.fromElement)
+        let oTo = _event.toElement
+        if (!oBox.contains(oTo)) {
+            console.log("移出")
+        }
+        _event.stopPropagation()
+    }
+    //注意：在Javascript中，父元素包含子元素，当给父元素设置onmouseover或onmouseout事件时
+    //鼠标从父级移入子级的时候会多次触发onmouseover事件；鼠标从子级移入父级后再次移出的时候也会多次触发onmouseout事件。
+</script>
+
+</html>
