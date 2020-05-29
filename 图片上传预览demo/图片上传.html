@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片上传预览功能Demo</title>
+</head>
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+    }
+
+    #up-load-box {
+        width: 200px;
+        height: 300px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    #up {
+        width: 100px;
+        height: 35px;
+        opacity: 0;
+        position: absolute;
+        left: 0px;
+    }
+
+    #up-background {
+        width: 100px;
+        height: 35px;
+        text-align: center;
+        line-height: 35px;
+        position: relative;
+        border-radius: 10px;
+        color: white;
+        background-color: rgb(64, 114, 228);
+    }
+
+    #show {
+        height: 200px;
+    }
+</style>
+
+<body>
+    <div id="up-load-box">
+        <img src="tupian.png" alt="" id="show">
+        <div id="up-background">
+            我要上传
+            <input type="file"  onchange="upload(event)" id="up">
+        </div>
+        <progress max="1" value="0"></progress>
+    </div>
+</body>
+
+<script>
+    function upload(_event) {
+        // console.log(_event)
+        let fileList = _event.target.files[0]
+        readerEvent(fileList)//读取函数
+    }
+
+    function readerEvent(_data) {
+        let nodeImg = document.getElementById("show")
+        const reader = new FileReader()
+        reader.readAsDataURL(_data)
+        /*当读取时周期性调用*/
+        reader.onprogress = function (_event) {
+            console.log(_event.loaded / _event.total)
+            console.log(document.getElementsByTagName("progress")[0].value)
+            document.getElementsByTagName("progress")[0].value = _event.loaded / _event.total
+        }
+        /*当读取操作成功完成时调用*/
+        reader.onload = function (_event) {
+            // console.log(this)
+            nodeImg.src = this.result//要的数据 这里的this指向FileReader()对象的实例reader
+        }
+    }
+</script>
+
+</html>
