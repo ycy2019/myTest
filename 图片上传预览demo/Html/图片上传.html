@@ -51,15 +51,29 @@
         <img src="tupian.png" alt="" id="show">
         <div id="up-background">
             我要上传
-            <input type="file"  onchange="upload(event)" id="up">
+            <input type="file" onchange="upload(event)" id="up">
         </div>
         <progress max="1" value="0"></progress>
     </div>
 </body>
-
 <script>
+    var Ajax = {
+        post: function (_url, _data, _bloon, _call) {
+            let xhr = new XMLHttpRequest()
+            xhr.open('POST', _url, _bloon)
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            // xhr.upload.onprogress = _call
+            xhr.send(_data)
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+                    if (xhr.status == 200 || xhr.status == 304) {
+                        console.log(xhr.response)
+                    }
+                }
+            }
+        }
+    }
     function upload(_event) {
-        // console.log(_event)
         let fileList = _event.target.files[0]
         readerEvent(fileList)//读取函数
     }
@@ -68,16 +82,27 @@
         let nodeImg = document.getElementById("show")
         const reader = new FileReader()
         reader.readAsDataURL(_data)
-        /*当读取时周期性调用*/
-        reader.onprogress = function (_event) {
-            console.log(_event.loaded / _event.total)
-            console.log(document.getElementsByTagName("progress")[0].value)
-            document.getElementsByTagName("progress")[0].value = _event.loaded / _event.total
-        }
         /*当读取操作成功完成时调用*/
         reader.onload = function (_event) {
-            // console.log(this)
             nodeImg.src = this.result//要的数据 这里的this指向FileReader()对象的实例reader
+        }
+        uploadImg(_data)
+    }
+
+    function uploadImg(_data) {
+        const reader2 = new FileReader()
+        reader2.readAsArrayBuffer(_data)
+
+        /*当读取时周期性调用*/
+        reader2.onloadstart = function (_event) {
+            console.log(_event)
+        }
+
+        reader2.onload = function (_event) {
+            console.log(event)
+            Ajax.post("http://localhost:3001/", this.result, true, (_event) => {
+                document.getElementsByTagName("progress")[0].value = _event.loaded / _event.total
+            })
         }
     }
 </script>
