@@ -62,7 +62,7 @@
             let xhr = new XMLHttpRequest()
             xhr.open('POST', _url, _bloon)
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            // xhr.upload.onprogress = _call
+            xhr.upload.onprogress = _call
             xhr.send(_data)
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4) {
@@ -90,17 +90,13 @@
     }
 
     function uploadImg(_data) {
-        const reader2 = new FileReader()
-        reader2.readAsArrayBuffer(_data)
-
-        /*当读取时周期性调用*/
-        reader2.onloadstart = function (_event) {
-            console.log(_event)
-        }
-
-        reader2.onload = function (_event) {
-            console.log(event)
-            Ajax.post("http://localhost:3001/", this.result, true, (_event) => {
+        const reader = new FileReader()
+        reader.readAsArrayBuffer(_data)
+        reader.onload = function (_event) {
+            console.log(new Uint8Array(this.result))
+            let data = new Uint8Array(this.result)
+            console.log(data)
+            Ajax.post("http://localhost:3001/", data, true, (_event) => {
                 document.getElementsByTagName("progress")[0].value = _event.loaded / _event.total
             })
         }

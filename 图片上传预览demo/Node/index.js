@@ -6,29 +6,22 @@ sever.listen(3001, () => {
 })
 
 sever.on("request", (req, res) => {
-    console.log(req.url)
     if(req.url=="/favicon.ico"){
         return
     }
-   var data = ""
+   var data = []
     res.setHeader("Access-Control-Allow-Origin", "*"); // 设置可访问的源
     res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, accept, origin, content-type");
     res.setHeader("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE");
     req.on("data", function (chunk) {
-        console.log(chunk)
-        // console.log("data")
-        data += chunk
+        data.push(chunk)
     });
     req.on("end", function () {
-        console.log(data)
-        write(data).then(function (val) {
-            // console.log(typeof val)
-            console.log(val)
+        let bufferData=Buffer.concat(data)//文件较大时，buffer会分段上传，这里将所有的buffer合并
+        write(bufferData).then(function (val) {
             res.end(val.toString())
         }).catch(function (reason) {
             reason = reason.toString()
-            // console.log(reason)
-            // console.log(typeof reason)
             res.end(reason)
         })
     })
